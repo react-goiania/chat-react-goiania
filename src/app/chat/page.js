@@ -91,8 +91,6 @@ function Chat() {
   }, [newMessageData]);
 
   const submitMessage = () => {
-    setMessage("");
-
     sendMessage({
       variables: {
         roomId: String(roomId),
@@ -103,6 +101,8 @@ function Chat() {
         },
       },
     });
+
+    setMessage("");
   };
 
   return (
