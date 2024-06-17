@@ -106,7 +106,7 @@ function Chat() {
   };
 
   return (
-    <Suspense>
+    
       <div className="overscroll-none">
         <h1 className="text-3xl font-bold mb-4 ">{`Chat na sala ${roomId}`}</h1>
 
@@ -167,7 +167,7 @@ function Chat() {
           </div>
         </div>
       </div>
-    </Suspense>
+    
   );
 }
 
