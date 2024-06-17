@@ -83,7 +83,7 @@ function Rooms() {
         </div>
       </Modal>
 
-      {Array(10)
+      {Array(1)
         .fill(0)
         .map((_, index) => {
           return (

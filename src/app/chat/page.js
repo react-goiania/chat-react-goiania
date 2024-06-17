@@ -81,6 +81,10 @@ function Chat() {
         ...prevMessages,
         newMessageData.messageReceived,
       ]);
+
+      setTimeout(() => {
+        listRef.current.scrollTo(0, listRef.current.scrollHeight, {});
+      }, 150);
     }
   }, [newMessageData]);
 
@@ -92,7 +96,7 @@ function Chat() {
         roomId: String(roomId),
         message: "hello",
         user: {
-          username: haveLogin.username,
+          username: haveLogin.nickname,
           email: haveLogin.email,
         },
       },
@@ -101,7 +105,7 @@ function Chat() {
 
   return (
     <div className="overscroll-none">
-      <h1 className="text-3xl font-bold mb-4 ">Chat</h1>
+      <h1 className="text-3xl font-bold mb-4 ">{`Chat na sala ${roomId}`}</h1>
 
       <div className=" absolute top-20 bottom-14 left-2 right-2 flex flex-col overflow-y-hidden">
         <div ref={listRef} className="overflow-y-auto">
@@ -120,8 +124,13 @@ function Chat() {
                     user.email === haveLogin.email
                       ? "bg-blue-700"
                       : "bg-gray-700"
+                  }
+                  
+                  ${
+                    user.email === haveLogin.email ? "text-right" : "text-left"
                   }`}
                 >
+                  <p className="font-bold">{user.username}</p>
                   <p>{text}</p>
                 </div>
               </div>
