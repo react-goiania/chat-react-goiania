@@ -5,6 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 
+import { Suspense } from "react";
+
 const MESSAGE_RECEIVED = gql`
   subscription messages($roomId: String) {
     messageReceived(roomId: $roomId) {
@@ -104,66 +106,68 @@ function Chat() {
   };
 
   return (
-    <div className="overscroll-none">
-      <h1 className="text-3xl font-bold mb-4 ">{`Chat na sala ${roomId}`}</h1>
+    <Suspense>
+      <div className="overscroll-none">
+        <h1 className="text-3xl font-bold mb-4 ">{`Chat na sala ${roomId}`}</h1>
 
-      <div className=" absolute top-20 bottom-14 left-2 right-2 flex flex-col overflow-y-hidden">
-        <div ref={listRef} className="overflow-y-auto">
-          {messages.map(({ text, user }, index) => {
-            return (
-              <div
-                key={index}
-                className={`flex ${
-                  user.email === haveLogin.email
-                    ? "justify-end"
-                    : "justify-start"
-                }`}
-              >
+        <div className=" absolute top-20 bottom-14 left-2 right-2 flex flex-col overflow-y-hidden">
+          <div ref={listRef} className="overflow-y-auto">
+            {messages.map(({ text, user }, index) => {
+              return (
                 <div
-                  className={`w-32 p-4 mb-2  rounded-md ${
+                  key={index}
+                  className={`flex ${
                     user.email === haveLogin.email
-                      ? "bg-blue-700"
-                      : "bg-gray-700"
-                  }
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`w-32 p-4 mb-2  rounded-md ${
+                      user.email === haveLogin.email
+                        ? "bg-blue-700"
+                        : "bg-gray-700"
+                    }
                   
                   ${
                     user.email === haveLogin.email ? "text-right" : "text-left"
                   }`}
-                >
-                  <p className="font-bold">{user.username}</p>
-                  <p>{text}</p>
+                  >
+                    <p className="font-bold">{user.username}</p>
+                    <p>{text}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-2">
-        <div className="flex">
-          <div className=" flex-1 h-10 mr-2">
-            <input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="bg-gray-700 h-10 rounded-md text-lg border-blue-700 border-solid border w-full"
-            />
-          </div>
-          <div className="w-24 h-10">
-            <button
-              onClick={submitMessage}
-              className="flex-none rounded-md bg-blue-700 h-10 w-full grow-0 text-lg border-blue-700 border-solid border  "
-            >
-              Enviar
-            </button>
-          </div>
-          {/* <div className="flex-4">
+        <div className="absolute bottom-0 left-0 right-0 p-2">
+          <div className="flex">
+            <div className=" flex-1 h-10 mr-2">
+              <input
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="bg-gray-700 h-10 rounded-md text-lg border-blue-700 border-solid border w-full"
+              />
+            </div>
+            <div className="w-24 h-10">
+              <button
+                onClick={submitMessage}
+                className="flex-none rounded-md bg-blue-700 h-10 w-full grow-0 text-lg border-blue-700 border-solid border  "
+              >
+                Enviar
+              </button>
+            </div>
+            {/* <div className="flex-4">
             <input className="bg-gray-700 h-10 text-lg border-blue-700 border-solid border " />
           </div>
 
           */}
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
 
